@@ -12,6 +12,7 @@ scikit-image = "*"
 matplotlib = "*"
 imageio = "*"
 tqdm = "*"
+ipython = "*"
 
 [dev-packages]
 
