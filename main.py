@@ -18,7 +18,7 @@ def measure_similarity(image1_path, image2_path):
 def imgdiff(file1, file2):
     similarity = measure_similarity(file1, file2)
     print(f"Image similarity (SSIM): {similarity}")
-    return similarity
+    return 1.0 - similarity
 
 def diff_filter(imgpath, dmin):
     """
@@ -32,7 +32,18 @@ def diff_filter(imgpath, dmin):
     """
     # get list of files
     paths = [filepath for filepath in sorted(Path(imgpath).iterdir())]
+    curdiff = None
+    lastimg = None
     for path in paths:
+        if lastimg is None:
+            print('lastimg is null')
+            lastimg = path
+            next
+        curimg = path
+        d = imgdiff(lastimg, curimg)
+        if d > dmin:
+            print(f'{curimg} has d-value of {d}, minimum is {dmin}')
+            lastimg = curimg
         print(path)
 
 def getargs():
@@ -56,7 +67,7 @@ def main2():
         print('not enough args')
         exit(1)
     filepath = sys.argv[1]
-    diff_filter(filepath, 0.5)
+    diff_filter(filepath, 0.001)
 
 
 if __name__ == '__main__':
